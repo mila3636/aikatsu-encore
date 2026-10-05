@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AIKATSU! ENCORE CARD COLLECTION</title>
+
+  <title>AIKATSU! ENCORE</title>
 
   <style>
     * {
@@ -12,141 +13,155 @@
 
     body {
       margin: 0;
-      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      font-family: sans-serif;
       background: linear-gradient(135deg, #fff0f7, #ffe0ef);
-      color: #6b4055;
+      color: #5a3150;
     }
 
     header {
       text-align: center;
-      padding: 28px 16px 20px;
+      padding: 24px 16px;
+      background: linear-gradient(135deg, #ff75b5, #ffb6d9);
+      color: white;
+      border-radius: 0 0 25px 25px;
     }
 
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #d85b91;
-      letter-spacing: 1px;
+    header h1 {
+      margin: 0;
+      font-size: 26px;
     }
 
-    .subtitle {
-      margin-top: 6px;
-      font-size: 12px;
-      color: #a8758d;
-      letter-spacing: 2px;
+    header p {
+      margin: 6px 0 0;
+      font-size: 13px;
     }
 
     .collection {
-      width: calc(100% - 32px);
-      max-width: 500px;
-      margin: 0 auto 22px;
+      margin: 18px;
       padding: 18px;
-      background: rgba(255,255,255,0.8);
-      border: 1px solid #f4b7d1;
+      background: white;
       border-radius: 20px;
-      box-shadow: 0 6px 18px rgba(190, 100, 140, 0.12);
+      box-shadow: 0 5px 15px rgba(255, 100, 170, 0.15);
     }
 
     .collection-title {
-      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
-    .number {
-      font-size: 28px;
-      font-weight: bold;
-      color: #d85b91;
-    }
-
-    .bar {
-      height: 10px;
-      background: #f7d6e5;
-      border-radius: 99px;
+    .progress-bg {
+      width: 100%;
+      height: 12px;
+      background: #f6d6e7;
+      border-radius: 20px;
       overflow: hidden;
-      margin-top: 10px;
     }
 
-    .bar-inner {
-      width: 0%;
+    .progress {
       height: 100%;
-      background: linear-gradient(90deg, #ef8fba, #d85b91);
-      border-radius: 99px;
-      transition: width 0.3s;
+      width: 0%;
+      background: linear-gradient(90deg, #ff70b3, #ffb3d7);
+      transition: 0.3s;
     }
 
-    .percent {
-      text-align: right;
-      margin-top: 5px;
-      font-size: 11px;
-      color: #a8758d;
+    .filters {
+      padding: 0 18px;
     }
 
-    .section-title {
-      max-width: 500px;
-      margin: 0 auto 12px;
-      padding: 0 16px;
-      font-size: 17px;
-      font-weight: bold;
-      color: #b74779;
+    .filters input,
+    .filters select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 2px solid #ffc4df;
+      border-radius: 12px;
+      background: white;
+      color: #5a3150;
+      font-size: 15px;
     }
 
     .cards {
-      width: calc(100% - 32px);
-      max-width: 500px;
-      margin: auto;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 14px;
-      padding-bottom: 30px;
+      padding: 8px 18px 30px;
     }
 
     .card {
       background: white;
       border-radius: 18px;
-      padding: 10px;
-      border: 1px solid #f2bfd5;
-      box-shadow: 0 5px 12px rgba(180, 90, 130, 0.1);
+      padding: 12px;
+      box-shadow: 0 4px 12px rgba(200, 80, 140, 0.15);
+      position: relative;
     }
 
     .card-image {
+      width: 100%;
       aspect-ratio: 3 / 4;
+      background: linear-gradient(135deg, #ffe1ef, #fff5fa);
       border-radius: 12px;
-      background: linear-gradient(135deg, #ffd6e8, #fff5fa);
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #d88bad;
+      font-size: 12px;
       text-align: center;
-      color: #c56b91;
-      font-size: 13px;
-    }
-
-    .card-name {
-      margin-top: 9px;
-      font-size: 13px;
-      font-weight: bold;
     }
 
     .card-info {
-      margin-top: 4px;
-      font-size: 10px;
-      color: #a77b8e;
+      padding-top: 9px;
+    }
+
+    .batch {
+      display: inline-block;
+      background: #ff83ba;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+
+    .card-number {
+      font-size: 12px;
+      color: #a66b89;
+    }
+
+    .character {
+      font-weight: bold;
+      margin-top: 3px;
+    }
+
+    .details {
+      font-size: 11px;
+      margin-top: 5px;
+      line-height: 1.6;
+      color: #866074;
     }
 
     .get-button {
       width: 100%;
-      margin-top: 9px;
-      padding: 10px;
+      margin-top: 8px;
+      padding: 8px;
       border: none;
-      border-radius: 999px;
-      background: #f3c1d7;
+      border-radius: 12px;
+      background: #ff76b5;
       color: white;
       font-weight: bold;
-      font-size: 12px;
+      cursor: pointer;
     }
 
     .get-button.owned {
-      background: #d85b91;
+      background: #d8a6bd;
+    }
+
+    @media (min-width: 600px) {
+      .cards {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
   </style>
 </head>
@@ -154,100 +169,249 @@
 <body>
 
   <header>
-    <div class="logo">🎀 AIKATSU! ENCORE 🎀</div>
-    <div class="subtitle">MY CARD COLLECTION</div>
+    <h1>🎀 AIKATSU! ENCORE 🎀</h1>
+    <p>MY CARD COLLECTION</p>
   </header>
 
   <section class="collection">
-    <div class="collection-title">💖 COLLECTION</div>
-    <div class="number"><span id="ownedCount">0</span> / 3</div>
-
-    <div class="bar">
-      <div class="bar-inner" id="progress"></div>
+    <div class="collection-title">
+      <span>💖 COLLECTION</span>
+      <span id="count">0 / 3</span>
     </div>
 
-    <div class="percent" id="percent">0%</div>
+    <div class="progress-bg">
+      <div class="progress" id="progress"></div>
+    </div>
   </section>
 
-  <div class="section-title">✨ CARD LIST</div>
+  <section class="filters">
 
-  <main class="cards">
+    <input
+      type="text"
+      id="search"
+      placeholder="🔍 キャラクター・カード番号を検索"
+    >
 
-    <article class="card">
-      <div class="card-image">
-        CARD IMAGE<br>
-        A-001
-      </div>
-      <div class="card-name">サンプルカード ①</div>
-      <div class="card-info">A-001 / NORMAL</div>
-      <button class="get-button" data-card="1">💖 GET!</button>
-    </article>
+    <select id="batchFilter">
+      <option value="all">🎀 すべての弾</option>
+      <option value="第1弾">第1弾</option>
+      <option value="第2弾">第2弾</option>
+      <option value="第3弾">第3弾</option>
+    </select>
 
-    <article class="card">
-      <div class="card-image">
-        CARD IMAGE<br>
-        A-002
-      </div>
-      <div class="card-name">サンプルカード ②</div>
-      <div class="card-info">A-002 / RARE</div>
-      <button class="get-button" data-card="2">💖 GET!</button>
-    </article>
+    <select id="ownedFilter">
+      <option value="all">💗 すべて</option>
+      <option value="owned">💖 持っている</option>
+      <option value="notOwned">🤍 持っていない</option>
+    </select>
 
-    <article class="card">
-      <div class="card-image">
-        CARD IMAGE<br>
-        A-003
-      </div>
-      <div class="card-name">サンプルカード ③</div>
-      <div class="card-info">A-003 / SR</div>
-      <button class="get-button" data-card="3">💖 GET!</button>
-    </article>
+  </section>
 
-  </main>
+  <main class="cards" id="cards"></main>
 
   <script>
-    const buttons = document.querySelectorAll(".get-button");
-    const total = buttons.length;
 
-    let owned = JSON.parse(localStorage.getItem("aikatsuOwned") || "[]");
+    const cards = [
+      {
+        id: "A-001",
+        batch: "第1弾",
+        character: "星宮いちご",
+        brand: "STAR☆ANIS",
+        rarity: "PR",
+        part: "トップス"
+      },
 
-    function update() {
-      document.getElementById("ownedCount").textContent = owned.length;
+      {
+        id: "A-002",
+        batch: "第1弾",
+        character: "霧矢あおい",
+        brand: "STAR☆ANIS",
+        rarity: "R",
+        part: "ボトムス"
+      },
 
-      const percent = Math.round((owned.length / total) * 100);
+      {
+        id: "A-003",
+        batch: "第2弾",
+        character: "紫吹蘭",
+        brand: "SPICY AGEHA",
+        rarity: "SR",
+        part: "シューズ"
+      }
+    ];
 
-      document.getElementById("percent").textContent = percent + "%";
-      document.getElementById("progress").style.width = percent + "%";
+    let ownedCards =
+      JSON.parse(localStorage.getItem("aikatsuOwned")) || [];
 
-      buttons.forEach(button => {
-        const id = button.dataset.card;
+    const cardsArea = document.getElementById("cards");
+    const count = document.getElementById("count");
+    const progress = document.getElementById("progress");
 
-        if (owned.includes(id)) {
-          button.textContent = "💗 GET済み";
-          button.classList.add("owned");
-        } else {
-          button.textContent = "💖 GET!";
-          button.classList.remove("owned");
-        }
+    const search = document.getElementById("search");
+    const batchFilter = document.getElementById("batchFilter");
+    const ownedFilter = document.getElementById("ownedFilter");
+
+
+    function renderCards() {
+
+      cardsArea.innerHTML = "";
+
+      const searchWord =
+        search.value.toLowerCase();
+
+      const selectedBatch =
+        batchFilter.value;
+
+      const selectedOwned =
+        ownedFilter.value;
+
+
+      const filteredCards = cards.filter(card => {
+
+        const matchesSearch =
+          card.character.toLowerCase().includes(searchWord) ||
+          card.id.toLowerCase().includes(searchWord);
+
+        const matchesBatch =
+          selectedBatch === "all" ||
+          card.batch === selectedBatch;
+
+        const isOwned =
+          ownedCards.includes(card.id);
+
+        const matchesOwned =
+          selectedOwned === "all" ||
+          (selectedOwned === "owned" && isOwned) ||
+          (selectedOwned === "notOwned" && !isOwned);
+
+        return (
+          matchesSearch &&
+          matchesBatch &&
+          matchesOwned
+        );
       });
+
+
+      filteredCards.forEach(card => {
+
+        const isOwned =
+          ownedCards.includes(card.id);
+
+        const cardElement =
+          document.createElement("div");
+
+        cardElement.className = "card";
+
+        cardElement.innerHTML = `
+
+          <div class="card-image">
+            🖼️<br>
+            カード画像
+          </div>
+
+          <div class="card-info">
+
+            <span class="batch">
+              ${card.batch}
+            </span>
+
+            <div class="card-number">
+              ${card.id}
+            </div>
+
+            <div class="character">
+              ${card.character}
+            </div>
+
+            <div class="details">
+              🏷️ ${card.brand}<br>
+              💎 ${card.rarity}<br>
+              👗 ${card.part}
+            </div>
+
+            <button
+              class="get-button ${isOwned ? "owned" : ""}"
+              onclick="toggleOwned('${card.id}')"
+            >
+              ${isOwned ? "💖 GET済み" : "💖 GET！"}
+            </button>
+
+          </div>
+        `;
+
+        cardsArea.appendChild(cardElement);
+      });
+
+      updateCollection();
+
     }
 
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
-        const id = button.dataset.card;
 
-        if (owned.includes(id)) {
-          owned = owned.filter(item => item !== id);
-        } else {
-          owned.push(id);
-        }
+    function toggleOwned(id) {
 
-        localStorage.setItem("aikatsuOwned", JSON.stringify(owned));
-        update();
-      });
-    });
+      if (ownedCards.includes(id)) {
 
-    update();
+        ownedCards =
+          ownedCards.filter(cardId => cardId !== id);
+
+      } else {
+
+        ownedCards.push(id);
+
+      }
+
+      localStorage.setItem(
+        "aikatsuOwned",
+        JSON.stringify(ownedCards)
+      );
+
+      renderCards();
+
+    }
+
+
+    function updateCollection() {
+
+      const ownedCount =
+        cards.filter(card =>
+          ownedCards.includes(card.id)
+        ).length;
+
+      const total =
+        cards.length;
+
+      count.textContent =
+        `${ownedCount} / ${total}`;
+
+      const percent =
+        total === 0
+          ? 0
+          : (ownedCount / total) * 100;
+
+      progress.style.width =
+        `${percent}%`;
+
+    }
+
+
+    search.addEventListener(
+      "input",
+      renderCards
+    );
+
+    batchFilter.addEventListener(
+      "change",
+      renderCards
+    );
+
+    ownedFilter.addEventListener(
+      "change",
+      renderCards
+    );
+
+
+    renderCards();
+
   </script>
 
 </body>
