@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIKATSU! ENCORE CARD COLLECTION</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      background: linear-gradient(135deg, #fff0f7, #ffe0ef);
+      color: #6b4055;
+    }
+
+    header {
+      text-align: center;
+      padding: 28px 16px 20px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #d85b91;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #a8758d;
+      letter-spacing: 2px;
+    }
+
+    .collection {
+      width: calc(100% - 32px);
+      max-width: 500px;
+      margin: 0 auto 22px;
+      padding: 18px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid #f4b7d1;
+      border-radius: 20px;
+      box-shadow: 0 6px 18px rgba(190, 100, 140, 0.12);
+    }
+
+    .collection-title {
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .number {
+      font-size: 28px;
+      font-weight: bold;
+      color: #d85b91;
+    }
+
+    .bar {
+      height: 10px;
+      background: #f7d6e5;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .bar-inner {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #ef8fba, #d85b91);
+      border-radius: 99px;
+      transition: width 0.3s;
+    }
+
+    .percent {
+      text-align: right;
+      margin-top: 5px;
+      font-size: 11px;
+      color: #a8758d;
+    }
+
+    .section-title {
+      max-width: 500px;
+      margin: 0 auto 12px;
+      padding: 0 16px;
+      font-size: 17px;
+      font-weight: bold;
+      color: #b74779;
+    }
+
+    .cards {
+      width: calc(100% - 32px);
+      max-width: 500px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      padding-bottom: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 10px;
+      border: 1px solid #f2bfd5;
+      box-shadow: 0 5px 12px rgba(180, 90, 130, 0.1);
+    }
+
+    .card-image {
+      aspect-ratio: 3 / 4;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffd6e8, #fff5fa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #c56b91;
+      font-size: 13px;
+    }
+
+    .card-name {
+      margin-top: 9px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .card-info {
+      margin-top: 4px;
+      font-size: 10px;
+      color: #a77b8e;
+    }
+
+    .get-button {
+      width: 100%;
+      margin-top: 9px;
+      padding: 10px;
+      border: none;
+      border-radius: 999px;
+      background: #f3c1d7;
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .get-button.owned {
+      background: #d85b91;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🎀 AIKATSU! ENCORE 🎀</div>
+    <div class="subtitle">MY CARD COLLECTION</div>
+  </header>
+
+  <section class="collection">
+    <div class="collection-title">💖 COLLECTION</div>
+    <div class="number"><span id="ownedCount">0</span> / 3</div>
+
+    <div class="bar">
+      <div class="bar-inner" id="progress"></div>
+    </div>
+
+    <div class="percent" id="percent">0%</div>
+  </section>
+
+  <div class="section-title">✨ CARD LIST</div>
+
+  <main class="cards">
+
+    <article class="card">
+      <div class="card-image">
+        CARD IMAGE<br>
+        A-001
+      </div>
+      <div class="card-name">サンプルカード ①</div>
+      <div class="card-info">A-001 / NORMAL</div>
+      <button class="get-button" data-card="1">💖 GET!</button>
+    </article>
+
+    <article class="card">
+      <div class="card-image">
+        CARD IMAGE<br>
+        A-002
+      </div>
+      <div class="card-name">サンプルカード ②</div>
+      <div class="card-info">A-002 / RARE</div>
+      <button class="get-button" data-card="2">💖 GET!</button>
+    </article>
+
+    <article class="card">
+      <div class="card-image">
+        CARD IMAGE<br>
+        A-003
+      </div>
+      <div class="card-name">サンプルカード ③</div>
+      <div class="card-info">A-003 / SR</div>
+      <button class="get-button" data-card="3">💖 GET!</button>
+    </article>
+
+  </main>
+
+  <script>
+    const buttons = document.querySelectorAll(".get-button");
+    const total = buttons.length;
+
+    let owned = JSON.parse(localStorage.getItem("aikatsuOwned") || "[]");
+
+    function update() {
+      document.getElementById("ownedCount").textContent = owned.length;
+
+      const percent = Math.round((owned.length / total) * 100);
+
+      document.getElementById("percent").textContent = percent + "%";
+      document.getElementById("progress").style.width = percent + "%";
+
+      buttons.forEach(button => {
+        const id = button.dataset.card;
+
+        if (owned.includes(id)) {
+          button.textContent = "💗 GET済み";
+          button.classList.add("owned");
+        } else {
+          button.textContent = "💖 GET!";
+          button.classList.remove("owned");
+        }
+      });
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        const id = button.dataset.card;
+
+        if (owned.includes(id)) {
+          owned = owned.filter(item => item !== id);
+        } else {
+          owned.push(id);
+        }
+
+        localStorage.setItem("aikatsuOwned", JSON.stringify(owned));
+        update();
+      });
+    });
+
+    update();
+  </script>
+
+</body>
+</html>
