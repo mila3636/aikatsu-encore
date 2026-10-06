@@ -347,10 +347,11 @@
     </select>
 
     <select id="ownedFilter">
-      <option value="all">💗 すべて</option>
-      <option value="owned">💖 持っている</option>
-      <option value="notOwned">🤍 持っていない</option>
-    </select>
+  <option value="all">💗 すべて</option>
+  <option value="owned">💖 持っている</option>
+  <option value="notOwned">🤍 持っていない</option>
+  <option value="favorite">💗 お気に入り</option>
+</select>
 
   </section>
 
@@ -476,11 +477,15 @@
         const isOwned =
           ownedCards.includes(card.id);
 
-        const matchesOwned =
-          selectedOwned === "all" ||
-          (selectedOwned === "owned" && isOwned) ||
-          (selectedOwned === "notOwned" && !isOwned);
+        const isFavorite =
+  favoriteCards.includes(card.id);
 
+const matchesOwned =
+  selectedOwned === "all" ||
+  (selectedOwned === "owned" && isOwned) ||
+  (selectedOwned === "notOwned" && !isOwned) ||
+  (selectedOwned === "favorite" && isFavorite);
+        
         return (
           matchesSearch &&
           matchesBatch &&
