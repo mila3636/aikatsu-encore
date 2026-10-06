@@ -426,59 +426,111 @@
       });
 
 
-      filteredCards.forEach(card => {
+filteredCards.forEach(card => {
 
-        const isOwned =
-          ownedCards.includes(card.id);
+  const isOwned =
+    ownedCards.includes(card.id);
 
-        const cardElement =
-          document.createElement("div");
+  const cardElement =
+    document.createElement("div");
 
-        cardElement.className = "card";
+  cardElement.className = "card";
 
-        cardElement.innerHTML = `
+  cardElement.addEventListener("click", () => {
+    openCardDetail(card);
+  });
 
-          <div class="card-image">
-          <img src="${card.image}" alt="${card.character}">
-</div>
+  cardElement.innerHTML = `
 
-          <div class="card-info">
+    <div class="card-image">
+      <img src="${card.image}" alt="${card.character}">
+    </div>
 
-            <span class="batch">
-              ${card.batch}
-            </span>
+    <div class="card-info">
 
-            <div class="card-number">
-              ${card.id}
-            </div>
+      <span class="batch">
+        ${card.batch}
+      </span>
 
-            <div class="character">
-              ${card.character}
-            </div>
+      <div class="card-number">
+        ${card.id}
+      </div>
 
-            <div class="details">
-              🏷️ ${card.brand}<br>
-              💎 ${card.rarity}<br>
-              👗 ${card.part}
-            </div>
+      <div class="character">
+        ${card.character}
+      </div>
 
-            <button
-              class="get-button ${isOwned ? "owned" : ""}"
-              onclick="toggleOwned('${card.id}')"
-            >
-              ${isOwned ? "💖 GET済み" : "💖 GET！"}
-            </button>
+      <div class="details">
+        🏷️ ${card.brand}<br>
+        💎 ${card.rarity}<br>
+        👗 ${card.part}
+      </div>
 
-          </div>
-        `;
+      <button
+        class="get-button ${isOwned ? "owned" : ""}"
+        onclick="toggleOwned('${card.id}'); event.stopPropagation();"
+      >
+        ${isOwned ? "💖 GET済み" : "💖 GET！"}
+      </button>
 
-        cardsArea.appendChild(cardElement);
-      });
+    </div>
+  `;
+
+  cardsArea.appendChild(cardElement);
+});
 
       updateCollection();
 
     }
 
+    function openCardDetail(card) {
+
+  document.getElementById("detailImage").src = card.image;
+  document.getElementById("detailImage").alt = card.character;
+
+  document.getElementById("detailBatch").textContent =
+    card.batch;
+
+  document.getElementById("detailNumber").textContent =
+    card.id;
+
+  document.getElementById("detailCharacter").textContent =
+    card.character;
+
+  document.getElementById("detailInfo").innerHTML =
+    `🏷️ ${card.brand}<br>
+     💎 レアリティ：${card.rarity}<br>
+     👗 部位：${card.part}`;
+
+  const detailButton =
+    document.getElementById("detailGetButton");
+
+  const isOwned =
+    ownedCards.includes(card.id);
+
+  detailButton.textContent =
+    isOwned ? "💖 GET済み" : "💖 GET！";
+
+  detailButton.className =
+    `get-button ${isOwned ? "owned" : ""}`;
+
+  detailButton.onclick = () => {
+    toggleOwned(card.id);
+    openCardDetail(card);
+  };
+
+  document
+    .getElementById("cardDetail")
+    .classList.add("show");
+}
+
+    document.getElementById("detailClose").addEventListener("click", () => {
+
+  document
+    .getElementById("cardDetail")
+    .classList.remove("show");
+
+});
 
     function toggleOwned(id) {
 
