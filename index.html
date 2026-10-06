@@ -170,6 +170,93 @@
         grid-template-columns: repeat(3, 1fr);
       }
     }
+    /* カード詳細画面 */
+.card-detail {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(255, 220, 238, 0.95);
+  padding: 25px 18px;
+  overflow-y: auto;
+}
+
+.card-detail.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-detail-box {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 28px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(200, 80, 140, 0.25);
+}
+
+.card-detail-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #d85b91;
+  margin-bottom: 15px;
+}
+
+.card-detail-image {
+  width: 75%;
+  max-width: 280px;
+  aspect-ratio: 3 / 4;
+  margin: 0 auto 15px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.card-detail-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-detail-batch {
+  display: inline-block;
+  background: #ff83ba;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.card-detail-number {
+  color: #a66b89;
+  font-size: 13px;
+}
+
+.card-detail-character {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 5px 0;
+  color: #5a3150;
+}
+
+.card-detail-info {
+  color: #866074;
+  line-height: 1.8;
+  margin-bottom: 15px;
+}
+
+.card-detail-close {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 15px;
+  background: #f1c5da;
+  color: #6d4058;
+  font-weight: bold;
+  font-size: 14px;
+}
   </style>
 </head>
 
