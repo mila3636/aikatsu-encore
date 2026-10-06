@@ -292,6 +292,24 @@
   background: linear-gradient(135deg, #d99bbd, #e8bdd4);
   box-shadow: none;
 }
+
+    .favorite-button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 11px;
+  border: 2px solid #ff9ac8;
+  border-radius: 18px;
+  background: white;
+  color: #d85b91;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.favorite-button.active {
+  background: #ffe0ef;
+  color: #d84b8d;
+  box-shadow: 0 4px 10px rgba(255, 105, 175, 0.2);
+}
   </style>
 </head>
 
@@ -364,7 +382,14 @@
     >
       💖 GET！
     </button>
-
+    
+<button
+  class="favorite-button"
+  id="favoriteButton"
+>
+  ♡ お気に入り
+</button>
+    
     <button
       class="card-detail-close"
       id="detailClose"
@@ -411,6 +436,9 @@
 
     let ownedCards =
       JSON.parse(localStorage.getItem("aikatsuOwned")) || [];
+
+    let favoriteCards =
+  JSON.parse(localStorage.getItem("aikatsuFavorites")) || [];
 
     const cardsArea = document.getElementById("cards");
     const count = document.getElementById("count");
@@ -554,6 +582,41 @@ filteredCards.forEach(card => {
     openCardDetail(card);
   };
 
+const favoriteButton =
+  document.getElementById("favoriteButton");
+
+const isFavorite =
+  favoriteCards.includes(card.id);
+
+favoriteButton.textContent =
+  isFavorite ? "💗 お気に入り" : "♡ お気に入り";
+
+favoriteButton.className =
+  `favorite-button ${isFavorite ? "active" : ""}`;
+
+favoriteButton.onclick = () => {
+
+  if (favoriteCards.includes(card.id)) {
+
+    favoriteCards =
+      favoriteCards.filter(
+        cardId => cardId !== card.id
+      );
+
+  } else {
+
+    favoriteCards.push(card.id);
+
+  }
+
+  localStorage.setItem(
+    "aikatsuFavorites",
+    JSON.stringify(favoriteCards)
+  );
+
+  openCardDetail(card);
+};
+      
   document
     .getElementById("cardDetail")
     .classList.add("show");
