@@ -441,6 +441,9 @@
     let favoriteCards =
   JSON.parse(localStorage.getItem("aikatsuFavorites")) || [];
 
+let cardCounts =
+  JSON.parse(localStorage.getItem("aikatsuCardCounts")) || {};
+    
     const cardsArea = document.getElementById("cards");
     const count = document.getElementById("count");
     const progress = document.getElementById("progress");
