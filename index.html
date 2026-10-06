@@ -377,6 +377,13 @@
 
     <div class="card-detail-info" id="detailInfo"></div>
 
+<div class="card-count">
+  <button id="countMinus">−</button>
+  <span id="cardCount">0</span>
+  <button id="countPlus">＋</button>
+  <div>💗 所持枚数</div>
+</div>
+    
     <button
       class="get-button"
       id="detailGetButton"
@@ -579,6 +586,44 @@ filteredCards.forEach(card => {
   const isOwned =
     ownedCards.includes(card.id);
 
+const cardCount =
+  cardCounts[card.id] || 0;
+
+document.getElementById("cardCount").textContent =
+  cardCount;
+
+      document.getElementById("countMinus").onclick = () => {
+
+  const current =
+    cardCounts[card.id] || 0;
+
+  if (current > 0) {
+    cardCounts[card.id] = current - 1;
+  }
+
+  localStorage.setItem(
+    "aikatsuCardCounts",
+    JSON.stringify(cardCounts)
+  );
+
+  openCardDetail(card);
+};
+
+document.getElementById("countPlus").onclick = () => {
+
+  const current =
+    cardCounts[card.id] || 0;
+
+  cardCounts[card.id] = current + 1;
+
+  localStorage.setItem(
+    "aikatsuCardCounts",
+    JSON.stringify(cardCounts)
+  );
+
+  openCardDetail(card);
+};
+      
   detailButton.textContent =
     isOwned ? "💖 GET済み" : "💖 GET！";
 
