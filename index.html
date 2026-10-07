@@ -616,9 +616,18 @@ document.getElementById("countPlus").onclick = () => {
 
   cardCounts[card.id] = current + 1;
 
+  if (!ownedCards.includes(card.id)) {
+    ownedCards.push(card.id);
+  }
+
   localStorage.setItem(
     "aikatsuCardCounts",
     JSON.stringify(cardCounts)
+  );
+
+  localStorage.setItem(
+    "aikatsuOwned",
+    JSON.stringify(ownedCards)
   );
 
   openCardDetail(card);
