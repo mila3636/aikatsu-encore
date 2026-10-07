@@ -363,6 +363,8 @@
   💗 総所持枚数：<span id="totalCount">0</span>枚
 </div>
 
+    <div class="batch-progress" id="batchProgress"></div>
+
     <div class="progress-bg">
       <div class="progress" id="progress"></div>
     </div>
@@ -745,25 +747,36 @@ favoriteButton.onclick = () => {
 
     function toggleOwned(id) {
 
-      if (ownedCards.includes(id)) {
+  if (ownedCards.includes(id)) {
 
-        ownedCards =
-          ownedCards.filter(cardId => cardId !== id);
+    // GET済み → 所持枚数を0枚にする
+    ownedCards =
+      ownedCards.filter(cardId => cardId !== id);
 
-      } else {
+    cardCounts[id] = 0;
 
-        ownedCards.push(id);
+  } else {
 
-      }
+    // 未所持 → 所持枚数を1枚にする
+    ownedCards.push(id);
 
-      localStorage.setItem(
-        "aikatsuOwned",
-        JSON.stringify(ownedCards)
-      );
-
-      renderCards();
-
+    if ((cardCounts[id] || 0) === 0) {
+      cardCounts[id] = 1;
     }
+  }
+
+  localStorage.setItem(
+    "aikatsuOwned",
+    JSON.stringify(ownedCards)
+  );
+
+  localStorage.setItem(
+    "aikatsuCardCounts",
+    JSON.stringify(cardCounts)
+  );
+
+  renderCards();
+}
 
 
     function updateCollection() {
@@ -785,6 +798,45 @@ cards.forEach(card => {
 
 document.getElementById("totalCount").textContent =
   totalCardCount;
+
+      const batches = [...new Set(cards.map(card => card.batch))];
+
+document.getElementById("batchProgress").innerHTML =
+  batches.map(batch => {
+
+    const batchCards =
+      cards.filter(card => card.batch === batch);
+
+    const batchOwned =
+      batchCards.filter(card =>
+        ownedCards.includes(card.id)
+      ).length;
+
+    const batchTotal =
+      batchCards.length;
+
+    const batchPercent =
+      batchTotal === 0
+        ? 0
+        : (batchOwned / batchTotal) * 100;
+
+    return `
+      <div class="batch-progress-item">
+        <div class="batch-progress-title">
+          <span>💖 ${batch}</span>
+          <span>${batchOwned} / ${batchTotal}枚</span>
+        </div>
+
+        <div class="batch-progress-bg">
+          <div
+            class="batch-progress-bar"
+            style="width: ${batchPercent}%">
+          </div>
+        </div>
+      </div>
+    `;
+
+  }).join("");
 
       count.textContent =
         `${ownedCount} / ${total}`;
