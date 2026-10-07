@@ -785,7 +785,7 @@ let cardCounts =
       const filteredCards = cards.filter(card => {
 
         const matchesSearch =
-          card.character.toLowerCase().includes(searchWord) ||
+          card.cardName.toLowerCase().includes(searchWord) ||
           card.id.toLowerCase().includes(searchWord);
 
         const matchesBatch =
@@ -829,7 +829,7 @@ filteredCards.forEach(card => {
   cardElement.innerHTML = `
 
     <div class="card-image">
-      <img src="${card.image}" alt="${card.character}">
+      <img src="${card.image}" alt="${card.cardName}">
     </div>
 
     <div class="card-info">
@@ -843,8 +843,8 @@ filteredCards.forEach(card => {
       </div>
 
       <div class="character">
-        ${card.character}
-      </div>
+  ${card.cardName}
+</div>
 
       <div class="card-count-list">
   💗 所持：${cardCounts[card.id] || 0}枚
@@ -876,7 +876,7 @@ filteredCards.forEach(card => {
     function openCardDetail(card) {
 
   document.getElementById("detailImage").src = card.image;
-  document.getElementById("detailImage").alt = card.character;
+  document.getElementById("detailImage").alt = card.cardName;
 
   document.getElementById("detailBatch").textContent =
     card.batch;
@@ -885,7 +885,7 @@ filteredCards.forEach(card => {
     card.id;
 
   document.getElementById("detailCharacter").textContent =
-    card.character;
+  card.cardName;
 
   document.getElementById("detailInfo").innerHTML =
     `🏷️ ${card.brand}<br>
