@@ -592,7 +592,7 @@ const cardCount =
 document.getElementById("cardCount").textContent =
   cardCount;
 
-      document.getElementById("countMinus").onclick = () => {
+document.getElementById("countMinus").onclick = () => {
 
   const current =
     cardCounts[card.id] || 0;
@@ -601,9 +601,19 @@ document.getElementById("cardCount").textContent =
     cardCounts[card.id] = current - 1;
   }
 
+  if ((cardCounts[card.id] || 0) === 0) {
+    ownedCards =
+      ownedCards.filter(cardId => cardId !== card.id);
+  }
+
   localStorage.setItem(
     "aikatsuCardCounts",
     JSON.stringify(cardCounts)
+  );
+
+  localStorage.setItem(
+    "aikatsuOwned",
+    JSON.stringify(ownedCards)
   );
 
   openCardDetail(card);
