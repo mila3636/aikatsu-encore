@@ -755,6 +755,16 @@ favoriteButton.onclick = () => {
       const total =
         cards.length;
 
+      let totalCardCount = 0;
+
+cards.forEach(card => {
+  totalCardCount +=
+    cardCounts[card.id] || 0;
+});
+
+document.getElementById("totalCount").textContent =
+  totalCardCount;
+
       count.textContent =
         `${ownedCount} / ${total}`;
 
