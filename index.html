@@ -500,6 +500,49 @@
   font-size: 28px;
   color: #d85b91;
 }
+
+    .exchange {
+  padding: 22px 18px 30px;
+}
+
+.exchange-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #d85b91;
+  margin-bottom: 8px;
+}
+
+.exchange-message {
+  text-align: center;
+  font-size: 13px;
+  color: #866074;
+  margin-bottom: 18px;
+}
+
+.exchange-box {
+  background: white;
+  border: 2px solid #ffc9e2;
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 5px 15px rgba(255, 100, 170, 0.12);
+}
+
+.exchange-box-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #d85b91;
+  margin-bottom: 12px;
+}
+
+.exchange-empty {
+  padding: 18px 10px;
+  border-radius: 15px;
+  background: #fff5fa;
+  color: #a66b89;
+  text-align: center;
+  font-size: 12px;
+}
     
   </style>
 </head>
@@ -1200,6 +1243,7 @@ const exchange =
 
     tabs[2].classList.add("active");
 
+    exchange.style.display = "block";
   }
 
 }
