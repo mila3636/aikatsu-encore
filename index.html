@@ -436,6 +436,7 @@
 </nav>
 
 <section class="home" id="home">
+
   <div class="home-title">
     🎀 AIKATSU! ENCORE 🎀
   </div>
@@ -443,40 +444,61 @@
   <div class="home-message">
     💖 MY CARD COLLECTION 💖
   </div>
-</section>
 
   <div class="home-stats">
 
-  <div class="home-stat">
-    <div class="home-stat-icon">💗</div>
-    <div class="home-stat-label">総所持枚数</div>
-    <div class="home-stat-value">
-      <span id="homeTotalCount">0</span>枚
+    <div class="home-stat">
+      <div class="home-stat-icon">💗</div>
+
+      <div class="home-stat-label">
+        総所持枚数
+      </div>
+
+      <div class="home-stat-value">
+        <span id="homeTotalCount">0</span>枚
+      </div>
+    </div>
+
+    <div class="home-stat">
+      <div class="home-stat-icon">📖</div>
+
+      <div class="home-stat-label">
+        コンプリート
+      </div>
+
+      <div class="home-stat-value">
+        <span id="homeOwnedCount">0</span>
+        /
+        <span id="homeCardTotal">0</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div
+    class="home-exchange-card"
+    onclick="showTab('exchange')"
+  >
+    <div class="home-exchange-icon">
+      🔄
+    </div>
+
+    <div class="home-exchange-text">
+      <div class="home-exchange-title">
+        交換予定
+      </div>
+
+      <div class="home-exchange-message">
+        譲るカード・もらうカードを管理しよう💗
+      </div>
+    </div>
+
+    <div class="home-exchange-arrow">
+      ›
     </div>
   </div>
 
-    <div class="home-exchange-card" onclick="showTab('exchange')">
-  <div class="home-exchange-icon">🔄</div>
-
-  <div class="home-exchange-text">
-    <div class="home-exchange-title">
-      交換予定
-    </div>
-    <div class="home-exchange-message">
-      譲るカード・もらうカードを管理しよう💗
-    </div>
-  </div>
-
-  <div class="home-exchange-arrow">›</div>
-</div>
-
-  <div class="home-stat">
-    <div class="home-stat-icon">📖</div>
-    <div class="home-stat-label">コンプリート</div>
-    <div class="home-stat-value">
-      <span id="homeOwnedCount">0</span> / <span id="homeCardTotal">0</span>
-    </div>
-  </div>
+</section>
 
 </div>
   
