@@ -543,6 +543,29 @@
   text-align: center;
   font-size: 12px;
 }
+
+    .exchange-menu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.exchange-menu-button {
+  padding: 12px 8px;
+  border: 2px solid #ffc4df;
+  border-radius: 15px;
+  background: #fff0f7;
+  color: #d85b91;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.exchange-menu-button:active {
+  transform: scale(0.96);
+  background: #ffe0ef;
+}
     
   </style>
 </head>
@@ -640,14 +663,28 @@
   </div>
 
   <div class="exchange-box">
-    <div class="exchange-box-title">
-      💝 交換予定
-    </div>
 
-    <div class="exchange-empty">
-      まだ交換予定のカードはありません。
-    </div>
+  <div class="exchange-box-title">
+    💝 交換予定
   </div>
+
+  <div class="exchange-menu">
+
+    <button class="exchange-menu-button">
+      🎁 譲るカード
+    </button>
+
+    <button class="exchange-menu-button">
+      💗 欲しいカード
+    </button>
+
+  </div>
+
+  <div class="exchange-empty">
+    まだ交換予定のカードはありません。
+  </div>
+
+</div>
 
 </section>
   
