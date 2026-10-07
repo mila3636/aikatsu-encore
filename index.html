@@ -499,8 +499,6 @@
   </div>
 
 </section>
-
-</div>
   
   <section class="collection">
     <div class="collection-title">
@@ -1030,42 +1028,56 @@ function showTab(tabName) {
   const tabs =
     document.querySelectorAll(".tab");
 
+  const home =
+    document.getElementById("home");
+
+  const collection =
+    document.querySelector(".collection");
+
+  const filters =
+    document.querySelector(".filters");
+
+  const cardsArea =
+    document.querySelector(".cards");
+
   tabs.forEach(tab => {
     tab.classList.remove("active");
   });
 
-  if (tabName === "cards") {
+  home.style.display = "none";
+  collection.style.display = "none";
+  filters.style.display = "none";
+  cardsArea.style.display = "none";
 
-    document.querySelectorAll(".tab")[1]
-      .classList.add("active");
-
-    document.querySelector(".collection").style.display = "block";
-    document.querySelector(".filters").style.display = "block";
-    document.querySelector(".cards").style.display = "grid";
-
-  }
 
   if (tabName === "home") {
 
-    document.querySelectorAll(".tab")[0]
-      .classList.add("active");
+    tabs[0].classList.add("active");
 
-    document.querySelector(".collection").style.display = "block";
-    document.querySelector(".filters").style.display = "none";
-    document.querySelector(".cards").style.display = "none";
+    home.style.display = "block";
 
   }
+
+
+  if (tabName === "cards") {
+
+    tabs[1].classList.add("active");
+
+    collection.style.display = "block";
+    filters.style.display = "block";
+    cardsArea.style.display = "grid";
+
+  }
+
 
   if (tabName === "exchange") {
 
-    document.querySelectorAll(".tab")[2]
-      .classList.add("active");
-
-    document.querySelector(".collection").style.display = "none";
-    document.querySelector(".filters").style.display = "none";
-    document.querySelector(".cards").style.display = "none";
+    tabs[2].classList.add("active");
 
   }
+
+}
+    
 }
     
     showTab("home");
