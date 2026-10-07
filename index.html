@@ -949,8 +949,51 @@ document.getElementById("batchProgress").innerHTML =
       renderCards
     );
 
+function showTab(tabName) {
 
-    renderCards();
+  const tabs =
+    document.querySelectorAll(".tab");
+
+  tabs.forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  if (tabName === "cards") {
+
+    document.querySelectorAll(".tab")[1]
+      .classList.add("active");
+
+    document.querySelector(".collection").style.display = "block";
+    document.querySelector(".filters").style.display = "block";
+    document.querySelector(".cards").style.display = "grid";
+
+  }
+
+  if (tabName === "home") {
+
+    document.querySelectorAll(".tab")[0]
+      .classList.add("active");
+
+    document.querySelector(".collection").style.display = "block";
+    document.querySelector(".filters").style.display = "none";
+    document.querySelector(".cards").style.display = "none";
+
+  }
+
+  if (tabName === "exchange") {
+
+    document.querySelectorAll(".tab")[2]
+      .classList.add("active");
+
+    document.querySelector(".collection").style.display = "none";
+    document.querySelector(".filters").style.display = "none";
+    document.querySelector(".cards").style.display = "none";
+
+  }
+}
+    
+    showTab("home");
+renderCards();
 
   </script>
 
