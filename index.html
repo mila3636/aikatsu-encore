@@ -380,6 +380,36 @@
   border-radius: 10px;
   transition: width 0.3s ease;
 }
+
+    .tabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px;
+  background: #fff8fc;
+  border-bottom: 1px solid #ffc9e2;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 4px;
+  border: none;
+  border-radius: 14px;
+  background: #ffe5f1;
+  color: #c95b8d;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: linear-gradient(135deg, #ff75b5, #ffb6d9);
+  color: white;
+  box-shadow: 0 3px 8px rgba(255, 105, 175, 0.2);
+}
+
+.tab:active {
+  transform: scale(0.96);
+}
     
   </style>
 </head>
