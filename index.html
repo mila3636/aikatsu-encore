@@ -911,6 +911,15 @@ cards.forEach(card => {
 document.getElementById("totalCount").textContent =
   totalCardCount;
 
+      document.getElementById("homeTotalCount").textContent =
+  totalCardCount;
+
+document.getElementById("homeOwnedCount").textContent =
+  ownedCount;
+
+document.getElementById("homeCardTotal").textContent =
+  total;
+
       const batches = [...new Set(cards.map(card => card.batch))];
 
 document.getElementById("batchProgress").innerHTML =
