@@ -1260,16 +1260,39 @@ function showExchange(type) {
 
     function addExchangeCard(cardId) {
 
-  if (!exchangeGive.includes(cardId)) {
+  const type =
+    prompt("🎁 譲るカードなら「1」、💗 欲しいカードなら「2」を入力してね");
 
-    exchangeGive.push(cardId);
+  if (type === "1") {
 
-    localStorage.setItem(
-      "aikatsuExchangeGive",
-      JSON.stringify(exchangeGive)
-    );
+    if (!exchangeGive.includes(cardId)) {
 
-    alert("🎁 交換予定に追加したよ！");
+      exchangeGive.push(cardId);
+
+      localStorage.setItem(
+        "aikatsuExchangeGive",
+        JSON.stringify(exchangeGive)
+      );
+
+      alert("🎁 譲るカードに追加したよ！");
+    }
+
+  }
+
+  if (type === "2") {
+
+    if (!exchangeWant.includes(cardId)) {
+
+      exchangeWant.push(cardId);
+
+      localStorage.setItem(
+        "aikatsuExchangeWant",
+        JSON.stringify(exchangeWant)
+      );
+
+      alert("💗 欲しいカードに追加したよ！");
+    }
+
   }
 
 }
