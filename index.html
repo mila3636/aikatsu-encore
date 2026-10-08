@@ -1258,6 +1258,22 @@ function showExchange(type) {
 
 }
 
+    function addExchangeCard(cardId) {
+
+  if (!exchangeGive.includes(cardId)) {
+
+    exchangeGive.push(cardId);
+
+    localStorage.setItem(
+      "aikatsuExchangeGive",
+      JSON.stringify(exchangeGive)
+    );
+
+    alert("🎁 交換予定に追加したよ！");
+  }
+
+}
+
 function showTab(tabName) {
 
   const tabs =
