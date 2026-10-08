@@ -1262,6 +1262,101 @@ function showExchange(type) {
 
 }
 
+    function renderExchangeList() {
+
+  const exchangeList =
+    document.getElementById("exchangeList");
+
+  let html = "";
+
+  if (exchangeGive.length > 0) {
+
+    html += `
+      <div class="exchange-section-title">
+        🎁 譲るカード
+      </div>
+    `;
+
+    exchangeGive.forEach(cardId => {
+
+      const card =
+        cards.find(card => card.id === cardId);
+
+      if (!card) return;
+
+      html += `
+        <div class="exchange-card">
+          <img src="${card.image}" alt="${card.cardName}">
+
+          <div class="exchange-card-info">
+            <div class="exchange-card-name">
+              ${card.cardName}
+            </div>
+
+            <div class="exchange-card-detail">
+              ${card.batch} / ${card.id}<br>
+              ${card.brand} / ${card.part}
+            </div>
+          </div>
+        </div>
+      `;
+
+    });
+
+  }
+
+  if (exchangeWant.length > 0) {
+
+    html += `
+      <div class="exchange-section-title">
+        💗 欲しいカード
+      </div>
+    `;
+
+    exchangeWant.forEach(cardId => {
+
+      const card =
+        cards.find(card => card.id === cardId);
+
+      if (!card) return;
+
+      html += `
+        <div class="exchange-card">
+          <img src="${card.image}" alt="${card.cardName}">
+
+          <div class="exchange-card-info">
+            <div class="exchange-card-name">
+              ${card.cardName}
+            </div>
+
+            <div class="exchange-card-detail">
+              ${card.batch} / ${card.id}<br>
+              ${card.brand} / ${card.part}
+            </div>
+          </div>
+        </div>
+      `;
+
+    });
+
+  }
+
+  if (
+    exchangeGive.length === 0 &&
+    exchangeWant.length === 0
+  ) {
+
+    html = `
+      <div class="exchange-empty">
+        まだ交換予定のカードはありません。
+      </div>
+    `;
+
+  }
+
+  exchangeList.innerHTML = html;
+}
+
     function addExchangeCard(cardId) {
 
   const type =
