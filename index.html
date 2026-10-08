@@ -955,6 +955,13 @@ filteredCards.forEach(card => {
         ${isOwned ? "💖 GET済み" : "💖 GET！"}
       </button>
 
+      <button
+  class="exchange-add-button"
+  onclick="event.stopPropagation(); addExchangeCard('${card.id}')"
+>
+  🔄 交換に追加
+</button>
+
     </div>
   `;
 
