@@ -844,6 +844,12 @@
 
 let cardCounts =
   JSON.parse(localStorage.getItem("aikatsuCardCounts")) || {};
+
+let exchangeGive =
+  JSON.parse(localStorage.getItem("aikatsuExchangeGive")) || [];
+
+let exchangeWant =
+  JSON.parse(localStorage.getItem("aikatsuExchangeWant")) || [];
     
     const cardsArea = document.getElementById("cards");
     const count = document.getElementById("count");
