@@ -1375,7 +1375,9 @@ function renderExchangeList(type = "all") {
         "aikatsuExchangeGive",
         JSON.stringify(exchangeGive)
       );
-
+      
+      renderExchangeList();
+      
       alert("🎁 譲るカードに追加したよ！");
     }
 
@@ -1391,6 +1393,8 @@ function renderExchangeList(type = "all") {
         "aikatsuExchangeWant",
         JSON.stringify(exchangeWant)
       );
+
+      renderExchangeList();
 
       alert("💗 欲しいカードに追加したよ！");
     }
