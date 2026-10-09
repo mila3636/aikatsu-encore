@@ -1455,6 +1455,8 @@ function saveTrade() {
     JSON.stringify(tradeRecords)
   );
 
+  renderTradeRecords();
+
   document.getElementById("tradePartner").value = "";
   document.getElementById("tradeGiveCard").value = "";
   document.getElementById("tradeWantCard").value = "";
@@ -1463,6 +1465,74 @@ function saveTrade() {
   alert("💖 交換記録を保存したよ！");
 }
 
+
+function renderTradeRecords() {
+  const list = document.getElementById("tradeRecordsList");
+
+  if (tradeRecords.length === 0) {
+    list.innerHTML = `
+      <div class="exchange-empty">
+        まだ交換記録はないよ💗
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = tradeRecords.slice().reverse().map(trade => {
+    const giveCard = cards.find(card => card.id === trade.giveCardId);
+    const wantCard = cards.find(card => card.id === trade.wantCardId);
+
+    const status = trade.status || "相談中";
+
+    return `
+      <div class="exchange-card" style="align-items:flex-start;">
+        <div class="exchange-card-info">
+          <div class="exchange-card-name">
+            💗 ${escapeTradeText(trade.partner)}
+          </div>
+
+          <div class="exchange-card-detail">
+            📅 ${escapeTradeText(trade.createdAt || "")}<br>
+            🎁 渡すカード：${giveCard ? escapeTradeText(giveCard.cardName) : "不明なカード"}<br>
+            💝 もらうカード：${wantCard ? escapeTradeText(wantCard.cardName) : "不明なカード"}<br>
+            💌 メモ：${escapeTradeText(trade.memo || "なし")}
+          </div>
+
+          <label>🌸 交換状況</label>
+          <select onchange="updateTradeStatus(${Number(trade.id)}, this.value)">
+            <option value="相談中" ${status === "相談中" ? "selected" : ""}>💭 相談中</option>
+            <option value="交換の約束済み" ${status === "交換の約束済み" ? "selected" : ""}>🤝 交換の約束済み</option>
+            <option value="受け渡し待ち" ${status === "受け渡し待ち" ? "selected" : ""}>🎁 受け渡し待ち</option>
+            <option value="交換完了" ${status === "交換完了" ? "selected" : ""}>💖 交換完了</option>
+          </select>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function escapeTradeText(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function updateTradeStatus(id, newStatus) {
+  const trade = tradeRecords.find(item => item.id === id);
+
+  if (!trade) return;
+
+  trade.status = newStatus;
+
+  localStorage.setItem(
+    "aikatsuTradeRecords",
+    JSON.stringify(tradeRecords)
+  );
+
+  renderTradeRecords();
+}
 
 
     
@@ -1624,6 +1694,7 @@ const exchange =
 }
     
     fillTradeCardOptions();
+    renderTradeRecords();
     showTab("home");
     renderCards();
 
