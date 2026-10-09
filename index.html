@@ -987,6 +987,9 @@ let exchangeGive =
 let exchangeWant =
   JSON.parse(localStorage.getItem("aikatsuExchangeWant")) || [];
     
+let tradeRecords =
+  JSON.parse(localStorage.getItem("aikatsuTradeRecords")) || [];
+    
     const cardsArea = document.getElementById("cards");
     
 function fillTradeCardOptions() {
@@ -1402,6 +1405,51 @@ document.getElementById("batchProgress").innerHTML =
 function showExchange(type) {
   renderExchangeList(type);
 }
+
+    
+function saveTrade() {
+  const partner =
+    document.getElementById("tradePartner").value.trim();
+
+  const giveCardId =
+    document.getElementById("tradeGiveCard").value;
+
+  const wantCardId =
+    document.getElementById("tradeWantCard").value;
+
+  const memo =
+    document.getElementById("tradeMemo").value.trim();
+
+  if (!partner || !giveCardId || !wantCardId) {
+    alert("💗 相手のニックネームと、渡すカード・もらうカードを選んでね！");
+    return;
+  }
+
+  const trade = {
+    id: Date.now(),
+    partner: partner,
+    giveCardId: giveCardId,
+    wantCardId: wantCardId,
+    memo: memo,
+    status: "相談中",
+    createdAt: new Date().toLocaleDateString("ja-JP")
+  };
+
+  tradeRecords.push(trade);
+
+  localStorage.setItem(
+    "aikatsuTradeRecords",
+    JSON.stringify(tradeRecords)
+  );
+
+  document.getElementById("tradePartner").value = "";
+  document.getElementById("tradeGiveCard").value = "";
+  document.getElementById("tradeWantCard").value = "";
+  document.getElementById("tradeMemo").value = "";
+
+  alert("💖 交換記録を保存したよ！");
+}
+
 
 
     
