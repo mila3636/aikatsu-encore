@@ -1299,62 +1299,64 @@ document.getElementById("batchProgress").innerHTML =
       renderCards
     );
 
+
 function showExchange(type) {
-
-  if (type === "give") {
-    document.querySelector(".exchange-empty").textContent =
-      "🎁 譲るカードを選択できます！";
-  }
-
-  if (type === "want") {
-    document.querySelector(".exchange-empty").textContent =
-      "💗 欲しいカードを選択できます！";
-  }
-renderExchangeList();
+  renderExchangeList(type);
 }
 
-    function renderExchangeList() {
 
-  const exchangeList =
-    document.getElementById("exchangeList");
-
+    
+function renderExchangeList(type = "all") {
+  const exchangeList = document.getElementById("exchangeList");
   let html = "";
 
-  if (exchangeGive.length > 0) {
+  if (type === "all" || type === "give") {
+    html += `<div class="exchange-section-title">🎁 譲るカード</div>`;
 
-    html += `
-      <div class="exchange-section-title">
-        🎁 譲るカード
-      </div>
-    `;
+    if (exchangeGive.length === 0) {
+      html += `<div class="exchange-empty">譲るカードはまだ登録されていないよ💗</div>`;
+    } else {
+      exchangeGive.forEach(cardId => {
+        const card = cards.find(card => card.id === cardId);
+        if (!card) return;
 
-    exchangeGive.forEach(cardId => {
-
-      const card =
-        cards.find(card => card.id === cardId);
-
-      if (!card) return;
-
-      html += `
-        <div class="exchange-card">
-          <img src="${card.image}" alt="${card.cardName}">
-
-          <div class="exchange-card-info">
-            <div class="exchange-card-name">
-              ${card.cardName}
+        html += `
+          <div class="exchange-card">
+            <img src="${card.image}" alt="${card.cardName}">
+            <div class="exchange-card-info">
+              <div class="exchange-card-name">${card.cardName}</div>
+              <div class="exchange-card-detail">${card.batch} / ${card.id}<br>${card.brand} / ${card.part}</div>
             </div>
-
-            <div class="exchange-card-detail">
-              ${card.batch} / ${card.id}<br>
-              ${card.brand} / ${card.part}
-            </div>
-          </div>
-        </div>
-      `;
-
-    });
-
+          </div>`;
+      });
+    }
   }
+
+  if (type === "all" || type === "want") {
+    html += `<div class="exchange-section-title">💗 欲しいカード</div>`;
+
+    if (exchangeWant.length === 0) {
+      html += `<div class="exchange-empty">欲しいカードはまだ登録されていないよ💗</div>`;
+    } else {
+      exchangeWant.forEach(cardId => {
+        const card = cards.find(card => card.id === cardId);
+        if (!card) return;
+
+        html += `
+          <div class="exchange-card">
+            <img src="${card.image}" alt="${card.cardName}">
+            <div class="exchange-card-info">
+              <div class="exchange-card-name">${card.cardName}</div>
+              <div class="exchange-card-detail">${card.batch} / ${card.id}<br>${card.brand} / ${card.part}</div>
+            </div>
+          </div>`;
+      });
+    }
+  }
+
+  exchangeList.innerHTML = html;
+}
+
 
   if (exchangeWant.length > 0) {
 
