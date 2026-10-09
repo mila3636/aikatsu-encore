@@ -988,6 +988,24 @@ let exchangeWant =
   JSON.parse(localStorage.getItem("aikatsuExchangeWant")) || [];
     
     const cardsArea = document.getElementById("cards");
+    
+function fillTradeCardOptions() {
+  const giveSelect = document.getElementById("tradeGiveCard");
+  const wantSelect = document.getElementById("tradeWantCard");
+
+  cards.forEach(card => {
+    const giveOption = document.createElement("option");
+    giveOption.value = card.id;
+    giveOption.textContent = `${card.cardName}（${card.id}）`;
+    giveSelect.appendChild(giveOption);
+
+    const wantOption = document.createElement("option");
+    wantOption.value = card.id;
+    wantOption.textContent = `${card.cardName}（${card.id}）`;
+    wantSelect.appendChild(wantOption);
+  });
+}
+
     const count = document.getElementById("count");
     const progress = document.getElementById("progress");
 
@@ -1544,8 +1562,9 @@ const exchange =
 
 }
     
+    fillTradeCardOptions();
     showTab("home");
-renderCards();
+    renderCards();
 
   </script>
 
