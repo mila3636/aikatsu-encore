@@ -1686,10 +1686,13 @@ const exchange =
 
   if (tabName === "exchange") {
 
-    tabs[2].classList.add("active");
+  tabs[2].classList.add("active");
 
-    exchange.style.display = "block";
-  }
+  exchange.style.display = "block";
+
+  renderExchangeList();
+  renderTradeRecords();
+}
 
 }
     
