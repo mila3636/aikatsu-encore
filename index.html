@@ -713,6 +713,40 @@
     譲るカード・もらうカードを管理しよう💗
   </div>
 
+    
+<div class="exchange-box">
+  <div class="exchange-box-title">📝 新しい交換記録</div>
+
+  <label for="tradePartner">💗 交換相手のニックネーム</label>
+  <input
+    type="text"
+    id="tradePartner"
+    placeholder="例：みおちゃん"
+  >
+
+  <label for="tradeGiveCard">🎁 自分が渡すカード</label>
+  <select id="tradeGiveCard">
+    <option value="">カードを選んでね</option>
+  </select>
+
+  <label for="tradeWantCard">💝 相手からもらうカード</label>
+  <select id="tradeWantCard">
+    <option value="">カードを選んでね</option>
+  </select>
+
+  <label for="tradeMemo">💌 メモ（任意）</label>
+  <textarea
+    id="tradeMemo"
+    placeholder="交換する場所や約束など"
+    rows="3"
+  ></textarea>
+
+  <button type="button" onclick="saveTrade()">
+    💖 交換記録を作成
+  </button>
+</div>
+
+
   <div class="exchange-box">
 
   <div class="exchange-box-title">
