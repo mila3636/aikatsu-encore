@@ -1005,30 +1005,37 @@ let tradeRecords =
     
     const cardsArea = document.getElementById("cards");
     
+
 function fillTradeCardOptions() {
   const giveSelect = document.getElementById("tradeGiveCard");
   const wantSelect = document.getElementById("tradeWantCard");
 
-  cards.forEach(card => {
-    const giveOption = document.createElement("option");
-    giveOption.value = card.id;
-    giveOption.textContent = `${card.cardName}（${card.id}）`;
-    giveSelect.appendChild(giveOption);
+  giveSelect.innerHTML =
+    '<option value="">譲るカードから選んでね</option>';
 
-    const wantOption = document.createElement("option");
-    wantOption.value = card.id;
-    wantOption.textContent = `${card.cardName}（${card.id}）`;
-    wantSelect.appendChild(wantOption);
+  wantSelect.innerHTML =
+    '<option value="">欲しいカードから選んでね</option>';
+
+  exchangeGive.forEach(cardId => {
+    const card = cards.find(card => card.id === cardId);
+    if (!card) return;
+
+    const option = document.createElement("option");
+    option.value = card.id;
+    option.textContent = `${card.cardName}（${card.id}）`;
+    giveSelect.appendChild(option);
+  });
+
+  exchangeWant.forEach(cardId => {
+    const card = cards.find(card => card.id === cardId);
+    if (!card) return;
+
+    const option = document.createElement("option");
+    option.value = card.id;
+    option.textContent = `${card.cardName}（${card.id}）`;
+    wantSelect.appendChild(option);
   });
 }
-
-    const count = document.getElementById("count");
-    const progress = document.getElementById("progress");
-
-    const search = document.getElementById("search");
-    const batchFilter = document.getElementById("batchFilter");
-    const ownedFilter = document.getElementById("ownedFilter");
-
 
     function renderCards() {
 
