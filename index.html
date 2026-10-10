@@ -1526,12 +1526,36 @@ function escapeTradeText(value) {
   })[char]);
 }
 
+
 function updateTradeStatus(id, newStatus) {
   const trade = tradeRecords.find(item => item.id === id);
 
   if (!trade) return;
 
   trade.status = newStatus;
+
+  if (newStatus === "交換完了") {
+    exchangeGive = exchangeGive.filter(
+      cardId => cardId !== trade.giveCardId
+    );
+
+    exchangeWant = exchangeWant.filter(
+      cardId => cardId !== trade.wantCardId
+    );
+
+    localStorage.setItem(
+      "aikatsuExchangeGive",
+      JSON.stringify(exchangeGive)
+    );
+
+    localStorage.setItem(
+      "aikatsuExchangeWant",
+      JSON.stringify(exchangeWant)
+    );
+
+    fillTradeCardOptions();
+    renderExchangeList();
+  }
 
   localStorage.setItem(
     "aikatsuTradeRecords",
@@ -1540,6 +1564,7 @@ function updateTradeStatus(id, newStatus) {
 
   renderTradeRecords();
 }
+
 
 
     
@@ -1614,6 +1639,7 @@ function renderExchangeList(type = "all") {
       );
       
       renderExchangeList();
+      fillTradeCardOptions();
       
       alert("🎁 譲るカードに追加したよ！");
     }
@@ -1632,6 +1658,7 @@ function renderExchangeList(type = "all") {
       );
 
       renderExchangeList();
+      fillTradeCardOptions();
 
       alert("💗 欲しいカードに追加したよ！");
     }
