@@ -1965,36 +1965,42 @@ exchangeButton.onclick = () => {
 });
 
     function toggleOwned(id) {
-
+  const isFirstGet =
+    !ownedCards.includes(id) &&
+    (cardCounts[id] || 0) === 0;
   if (ownedCards.includes(id)) {
-
     // GET済み → 所持枚数を0枚にする
-    ownedCards =
-      ownedCards.filter(cardId => cardId !== id);
-
+    ownedCards = ownedCards.filter(
+      cardId => cardId !== id
+    );
     cardCounts[id] = 0;
-
   } else {
-
-    // 未所持 → 所持枚数を1枚にする
+    // 未所持 → 1枚ゲット！
     ownedCards.push(id);
-
     if ((cardCounts[id] || 0) === 0) {
       cardCounts[id] = 1;
     }
   }
-
   localStorage.setItem(
     "aikatsuOwned",
     JSON.stringify(ownedCards)
   );
-
   localStorage.setItem(
     "aikatsuCardCounts",
     JSON.stringify(cardCounts)
   );
-
   renderCards();
+  if (isFirstGet) {
+    const card = cards.find(item => item.id === id);
+    const newCardElement = [...cardsArea.querySelectorAll(".card")]
+      .find(element => {
+        const image = element.querySelector("img");
+        return image && card && image.alt === card.cardName;
+      });
+    if (newCardElement) {
+      showNewCardEffect(newCardElement);
+    }
+  }
 }
 
 
