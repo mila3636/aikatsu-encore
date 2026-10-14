@@ -123,6 +123,56 @@
   display: block;
 }
 
+    /* 未所持カードはグレー表示 */
+.card.not-owned .card-image img {
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+/* 所持したカードはカラー表示 */
+.card.owned .card-image img {
+  filter: grayscale(0);
+  opacity: 1;
+}
+/* NEW演出用 */
+.card-new-effect {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  padding: 7px 10px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ff5ca8, #ffc4df);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+  box-shadow: 0 0 14px rgba(255, 80, 170, 0.65);
+  pointer-events: none;
+  animation: newCardPop 1.5s ease forwards;
+}
+@keyframes newCardPop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.4) rotate(-8deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.15) rotate(5deg);
+  }
+  45% {
+    transform: translateX(-50%) scale(1) rotate(0);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-12px) scale(0.9);
+  }
+}
+
     .card-info {
       padding-top: 9px;
     }
@@ -1579,7 +1629,16 @@ document.getElementById("tradePickerModal")
     }
   });
 
-
+// 初めてゲットしたカードにNEW演出を表示
+function showNewCardEffect(cardElement) {
+  const effect = document.createElement("div");
+  effect.className = "card-new-effect";
+  effect.textContent = "✨ NEW ✨";
+  cardElement.appendChild(effect);
+  setTimeout(() => {
+    effect.remove();
+  }, 1600);
+}
 
     function renderCards() {
 
@@ -1633,7 +1692,9 @@ filteredCards.forEach(card => {
   const cardElement =
     document.createElement("div");
 
-  cardElement.className = "card";
+  cardElement.className = isOwned
+  ? "card owned"
+  : "card not-owned";
 
   cardElement.addEventListener("click", () => {
     openCardDetail(card);
@@ -1698,6 +1759,33 @@ minusButton.addEventListener("click", event => {
 
 plusButton.addEventListener("click", event => {
   event.stopPropagation();
+  // 追加前に、初めての1枚かどうかを確認
+  const isFirstGet = (cardCounts[card.id] || 0) === 0;
+  cardCounts[card.id] = (cardCounts[card.id] || 0) + 1;
+  if (!ownedCards.includes(card.id)) {
+    ownedCards.push(card.id);
+  }
+  localStorage.setItem(
+    "aikatsuCardCounts",
+    JSON.stringify(cardCounts)
+  );
+  localStorage.setItem(
+    "aikatsuOwned",
+    JSON.stringify(ownedCards)
+  );
+  renderCards();
+  // 初めての1枚ならNEW演出を表示
+  if (isFirstGet) {
+    const newCardElement = [...cardsArea.querySelectorAll(".card")]
+      .find(element => {
+        const image = element.querySelector("img");
+        return image && image.alt === card.cardName;
+      });
+    if (newCardElement) {
+      showNewCardEffect(newCardElement);
+    }
+  }
+});
 
   cardCounts[card.id] = (cardCounts[card.id] || 0) + 1;
 
