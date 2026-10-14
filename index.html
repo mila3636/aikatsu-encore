@@ -1757,22 +1757,47 @@ minusButton.addEventListener("click", event => {
   renderCards();
 });
 
-plusButton.addEventListener("click", event => {
-  event.stopPropagation();
-  // 追加前に、初めての1枚かどうかを確認
-  const isFirstGet = (cardCounts[card.id] || 0) === 0;
-  
-  // 初めての1枚ならNEW演出を表示
-  if (isFirstGet) {
-    const newCardElement = [...cardsArea.querySelectorAll(".card")]
-      .find(element => {
-        const image = element.querySelector("img");
-        return image && image.alt === card.cardName;
-      });
-    if (newCardElement) {
-      showNewCardEffect(newCardElement);
-    }
-  }
+plusButton.addEventListener(“click”, event => {
+event.stopPropagation();
+
+// 追加前に、初めての1枚かどうかを確認
+const isFirstGet = (cardCounts[card.id] || 0) === 0;
+
+// 所持枚数を1枚増やす
+cardCounts[card.id] = (cardCounts[card.id] || 0) + 1;
+
+// 所持カードとして登録
+if (!ownedCards.includes(card.id)) {
+ownedCards.push(card.id);
+}
+
+// 保存
+localStorage.setItem(
+“aikatsuCardCounts”,
+JSON.stringify(cardCounts)
+);
+
+localStorage.setItem(
+“aikatsuOwned”,
+JSON.stringify(ownedCards)
+);
+
+// 画面を更新
+renderCards();
+
+// 初めてゲットしたときだけNEW表示
+if (isFirstGet) {
+const newCardElement = […cardsArea.querySelectorAll(”.card”)]
+.find(element => {
+const image = element.querySelector(“img”);
+return image && image.alt === card.cardName;
+});
+
+if (newCardElement) {
+  showNewCardEffect(newCardElement);
+}
+
+}
 });
 
   cardsArea.appendChild(cardElement);
