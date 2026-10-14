@@ -711,6 +711,63 @@
 }
 
     
+/* 交換記録の画像選択 */
+.trade-card-select {
+  display: none;
+}
+
+.trade-card-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.exchange-box .trade-card-option {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 6px;
+  border: 2px solid #ffc9e2;
+  border-radius: 13px;
+  background: #fff8fc;
+  color: #d85b91;
+  font-size: 11px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.exchange-box .trade-card-option img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.exchange-box .trade-card-option span {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.exchange-box .trade-card-option.selected {
+  border: 3px solid #ff5ca8;
+  background: #ffe5f1;
+  box-shadow: 0 0 0 2px #ffc4df;
+}
+
+.trade-card-empty {
+  grid-column: 1 / -1;
+  padding: 12px;
+  background: #fff5fa;
+  border-radius: 12px;
+  color: #a66b89;
+  font-size: 12px;
+  text-align: center;
+}
+
+    
   </style>
 </head>
 
@@ -817,15 +874,19 @@
     placeholder="例：みおちゃん"
   >
 
-  <label for="tradeGiveCard">🎁 自分が渡すカード</label>
-  <select id="tradeGiveCard">
-    <option value="">カードを選んでね</option>
-  </select>
+  
+<label for="tradeGiveCard">🎁 自分が渡すカード</label>
+<select id="tradeGiveCard" class="trade-card-select">
+  <option value="">カードを選んでね</option>
+</select>
+<div id="tradeGivePicker" class="trade-card-picker"></div>
 
-  <label for="tradeWantCard">💝 相手からもらうカード</label>
-  <select id="tradeWantCard">
-    <option value="">カードを選んでね</option>
-  </select>
+<label for="tradeWantCard">💝 相手からもらうカード</label>
+<select id="tradeWantCard" class="trade-card-select">
+  <option value="">カードを選んでね</option>
+</select>
+<div id="tradeWantPicker" class="trade-card-picker"></div>
+
 
   <label for="tradeMemo">💌 メモ（任意）</label>
   <textarea
@@ -1061,9 +1122,16 @@ let tradeRecords =
     const cardsArea = document.getElementById("cards");
     
 
+
 function fillTradeCardOptions() {
-  const giveSelect = document.getElementById("tradeGiveCard");
-  const wantSelect = document.getElementById("tradeWantCard");
+  const giveSelect =
+    document.getElementById("tradeGiveCard");
+
+  const wantSelect =
+    document.getElementById("tradeWantCard");
+
+  const previousGive = giveSelect.value;
+  const previousWant = wantSelect.value;
 
   giveSelect.innerHTML =
     '<option value="">譲るカードから選んでね</option>';
@@ -1090,7 +1158,91 @@ function fillTradeCardOptions() {
     option.textContent = `${card.cardName}（${card.id}）`;
     wantSelect.appendChild(option);
   });
+
+  if (exchangeGive.includes(previousGive)) {
+    giveSelect.value = previousGive;
+  }
+
+  if (exchangeWant.includes(previousWant)) {
+    wantSelect.value = previousWant;
+  }
+
+  renderTradeCardPicker(
+    "tradeGiveCard",
+    "tradeGivePicker",
+    exchangeGive,
+    "譲るカードがないよ💗"
+  );
+
+  renderTradeCardPicker(
+    "tradeWantCard",
+    "tradeWantPicker",
+    exchangeWant,
+    "欲しいカードがないよ💗"
+  );
 }
+
+function renderTradeCardPicker(
+  selectId,
+  pickerId,
+  cardIds,
+  emptyMessage
+) {
+  const select = document.getElementById(selectId);
+  const picker = document.getElementById(pickerId);
+
+  picker.innerHTML = "";
+
+  const availableCards = cardIds
+    .map(cardId => cards.find(card => card.id === cardId))
+    .filter(card => card);
+
+  if (availableCards.length === 0) {
+    picker.innerHTML = `
+      <div class="trade-card-empty">
+        ${emptyMessage}
+        <br>
+        図鑑の「🔄 交換に追加」から登録してね！
+      </div>
+    `;
+    return;
+  }
+
+  availableCards.forEach(card => {
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className = "trade-card-option";
+
+    if (select.value === card.id) {
+      button.classList.add("selected");
+    }
+
+    const img = document.createElement("img");
+    img.src = card.image;
+    img.alt = card.cardName;
+
+    const name = document.createElement("span");
+    name.textContent = card.cardName;
+
+    button.appendChild(img);
+    button.appendChild(name);
+
+    button.addEventListener("click", () => {
+      select.value = card.id;
+
+      renderTradeCardPicker(
+        selectId,
+        pickerId,
+        cardIds,
+        emptyMessage
+      );
+    });
+
+    picker.appendChild(button);
+  });
+}
+
 
     function renderCards() {
 
