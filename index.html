@@ -805,6 +805,57 @@
 }
 
 /* ポップアップ本体 */
+    /* ポップアップのタイトルと閉じるボタンを整える */
+.trade-picker-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+.trade-picker-header h3 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: #d85b91;
+  font-size: 17px;
+  line-height: 1.5;
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+.trade-picker-header .trade-picker-close {
+  flex: 0 0 36px;
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #ffe5f1;
+  color: #d85b91;
+  font-size: 16px;
+  line-height: 36px;
+  text-align: center;
+}
+/* カード選択ポップアップの中身を画面幅に収める */
+.trade-picker-content {
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+.trade-picker-grid {
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.trade-picker-grid .trade-card-option {
+  min-width: 0;
+  box-sizing: border-box;
+}
+    
 .trade-picker-content {
   width: 100%;
   max-width: 480px;
