@@ -768,6 +768,128 @@
 }
 
     
+/* 選択欄のボタン */
+.exchange-box .trade-open-button {
+  display: block;
+  width: 100%;
+  margin: 8px 0 18px;
+  padding: 13px;
+  border: 2px solid #ffc4df;
+  border-radius: 14px;
+  background: #fff5fa;
+  color: #d85b91;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+  cursor: pointer;
+}
+
+.trade-card-select {
+  display: none;
+}
+
+/* ポップアップの背景 */
+.trade-picker-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(60, 30, 50, 0.55);
+  padding: 20px 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.trade-picker-modal.show {
+  display: flex;
+}
+
+/* ポップアップ本体 */
+.trade-picker-content {
+  width: 100%;
+  max-width: 480px;
+  max-height: 85%;
+  overflow-y: auto;
+  background: #fffafd;
+  border-radius: 20px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.trade-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.trade-picker-header h3 {
+  margin: 0;
+  color: #d85b91;
+  font-size: 17px;
+}
+
+.trade-picker-close {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  background: #ffe5f1;
+  color: #d85b91;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.trade-picker-hint {
+  color: #a66b89;
+  font-size: 12px;
+  margin: 12px 0;
+}
+
+.trade-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.trade-picker-grid .trade-card-option {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 6px;
+  border: 2px solid #ffc9e2;
+  border-radius: 12px;
+  background: white;
+  color: #d85b91;
+  font-size: 11px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.trade-picker-grid .trade-card-option img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.trade-picker-grid .trade-card-option span {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.trade-picker-grid .trade-card-empty {
+  grid-column: 1 / -1;
+  padding: 16px 8px;
+  text-align: center;
+  color: #a66b89;
+  font-size: 13px;
+}
+
+    
   </style>
 </head>
 
@@ -875,17 +997,50 @@
   >
 
   
-<label for="tradeGiveCard">🎁 自分が渡すカード</label>
+
+<label>🎁 自分が渡すカード</label>
 <select id="tradeGiveCard" class="trade-card-select">
   <option value="">カードを選んでね</option>
 </select>
-<div id="tradeGivePicker" class="trade-card-picker"></div>
+<button
+  type="button"
+  class="trade-open-button"
+  id="tradeGiveOpen"
+>
+  🃏 選択してね
+</button>
 
-<label for="tradeWantCard">💝 相手からもらうカード</label>
+<label>💝 相手からもらうカード</label>
 <select id="tradeWantCard" class="trade-card-select">
   <option value="">カードを選んでね</option>
 </select>
-<div id="tradeWantPicker" class="trade-card-picker"></div>
+<button
+  type="button"
+  class="trade-open-button"
+  id="tradeWantOpen"
+>
+  🃏 選択してね
+</button>
+
+<!-- カード選択ポップアップ -->
+<div id="tradePickerModal" class="trade-picker-modal">
+  <div class="trade-picker-content">
+    <div class="trade-picker-header">
+      <h3 id="tradePickerTitle">カードを選んでね</h3>
+      <button
+        type="button"
+        id="tradePickerClose"
+        class="trade-picker-close"
+        aria-label="閉じる"
+      >✕</button>
+    </div>
+    <p class="trade-picker-hint">
+      選びたいカードの画像をタップしてね 💗
+    </p>
+    <div id="tradePickerGrid" class="trade-picker-grid"></div>
+  </div>
+</div>
+
 
 
   <label for="tradeMemo">💌 メモ（任意）</label>
@@ -1123,10 +1278,10 @@ let tradeRecords =
     
 
 
+
 function fillTradeCardOptions() {
   const giveSelect =
     document.getElementById("tradeGiveCard");
-
   const wantSelect =
     document.getElementById("tradeWantCard");
 
@@ -1134,28 +1289,27 @@ function fillTradeCardOptions() {
   const previousWant = wantSelect.value;
 
   giveSelect.innerHTML =
-    '<option value="">譲るカードから選んでね</option>';
-
+    '<option value="">カードを選んでね</option>';
   wantSelect.innerHTML =
-    '<option value="">欲しいカードから選んでね</option>';
+    '<option value="">カードを選んでね</option>';
 
   exchangeGive.forEach(cardId => {
-    const card = cards.find(card => card.id === cardId);
+    const card = cards.find(c => c.id === cardId);
     if (!card) return;
 
     const option = document.createElement("option");
     option.value = card.id;
-    option.textContent = `${card.cardName}（${card.id}）`;
+    option.textContent = card.cardName;
     giveSelect.appendChild(option);
   });
 
   exchangeWant.forEach(cardId => {
-    const card = cards.find(card => card.id === cardId);
+    const card = cards.find(c => c.id === cardId);
     if (!card) return;
 
     const option = document.createElement("option");
     option.value = card.id;
-    option.textContent = `${card.cardName}（${card.id}）`;
+    option.textContent = card.cardName;
     wantSelect.appendChild(option);
   });
 
@@ -1167,55 +1321,62 @@ function fillTradeCardOptions() {
     wantSelect.value = previousWant;
   }
 
-  renderTradeCardPicker(
+  updateTradePickerLabel(
     "tradeGiveCard",
-    "tradeGivePicker",
-    exchangeGive,
-    "譲るカードがないよ💗"
+    "tradeGiveOpen"
   );
 
-  renderTradeCardPicker(
+  updateTradePickerLabel(
     "tradeWantCard",
-    "tradeWantPicker",
-    exchangeWant,
-    "欲しいカードがないよ💗"
+    "tradeWantOpen"
   );
 }
 
-function renderTradeCardPicker(
-  selectId,
-  pickerId,
-  cardIds,
-  emptyMessage
-) {
+function updateTradePickerLabel(selectId, buttonId) {
   const select = document.getElementById(selectId);
-  const picker = document.getElementById(pickerId);
+  const button = document.getElementById(buttonId);
+  const card = cards.find(c => c.id === select.value);
 
-  picker.innerHTML = "";
+  button.textContent = card
+    ? `🃏 ${card.cardName}　✓`
+    : "🃏 選択してね";
+}
+
+let activeTradeSelectId = "";
+
+function openTradePicker(selectId, cardIds, title) {
+  activeTradeSelectId = selectId;
+
+  document.getElementById("tradePickerTitle")
+    .textContent = title;
+
+  const grid = document.getElementById("tradePickerGrid");
+  grid.innerHTML = "";
 
   const availableCards = cardIds
-    .map(cardId => cards.find(card => card.id === cardId))
-    .filter(card => card);
+    .map(id => cards.find(c => c.id === id))
+    .filter(Boolean);
 
   if (availableCards.length === 0) {
-    picker.innerHTML = `
+    grid.innerHTML = `
       <div class="trade-card-empty">
-        ${emptyMessage}
-        <br>
+        選べるカードがまだないよ 💗
+        <br><br>
         図鑑の「🔄 交換に追加」から登録してね！
       </div>
     `;
-    return;
   }
 
   availableCards.forEach(card => {
     const button = document.createElement("button");
-
     button.type = "button";
     button.className = "trade-card-option";
 
-    if (select.value === card.id) {
-      button.classList.add("selected");
+    if (
+      document.getElementById(selectId).value === card.id
+    ) {
+      button.style.border = "3px solid #ff5ca8";
+      button.style.background = "#ffe5f1";
     }
 
     const img = document.createElement("img");
@@ -1229,19 +1390,61 @@ function renderTradeCardPicker(
     button.appendChild(name);
 
     button.addEventListener("click", () => {
-      select.value = card.id;
+      document.getElementById(activeTradeSelectId).value =
+        card.id;
 
-      renderTradeCardPicker(
-        selectId,
-        pickerId,
-        cardIds,
-        emptyMessage
+      const buttonId =
+        activeTradeSelectId === "tradeGiveCard"
+          ? "tradeGiveOpen"
+          : "tradeWantOpen";
+
+      updateTradePickerLabel(
+        activeTradeSelectId,
+        buttonId
       );
+
+      document.getElementById("tradePickerModal")
+        .classList.remove("show");
     });
 
-    picker.appendChild(button);
+    grid.appendChild(button);
   });
+
+  document.getElementById("tradePickerModal")
+    .classList.add("show");
 }
+
+// 選択欄を押したときにポップアップを開く
+document.getElementById("tradeGiveOpen").onclick = () => {
+  openTradePicker(
+    "tradeGiveCard",
+    exchangeGive,
+    "🎁 自分が渡すカード"
+  );
+};
+
+document.getElementById("tradeWantOpen").onclick = () => {
+  openTradePicker(
+    "tradeWantCard",
+    exchangeWant,
+    "💝 相手からもらうカード"
+  );
+};
+
+// 閉じるボタン
+document.getElementById("tradePickerClose").onclick = () => {
+  document.getElementById("tradePickerModal")
+    .classList.remove("show");
+};
+
+// 背景部分を押しても閉じる
+document.getElementById("tradePickerModal")
+  .addEventListener("click", event => {
+    if (event.target.id === "tradePickerModal") {
+      event.currentTarget.classList.remove("show");
+    }
+  });
+
 
 
     function renderCards() {
