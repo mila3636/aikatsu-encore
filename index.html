@@ -1761,19 +1761,7 @@ plusButton.addEventListener("click", event => {
   event.stopPropagation();
   // 追加前に、初めての1枚かどうかを確認
   const isFirstGet = (cardCounts[card.id] || 0) === 0;
-  cardCounts[card.id] = (cardCounts[card.id] || 0) + 1;
-  if (!ownedCards.includes(card.id)) {
-    ownedCards.push(card.id);
-  }
-  localStorage.setItem(
-    "aikatsuCardCounts",
-    JSON.stringify(cardCounts)
-  );
-  localStorage.setItem(
-    "aikatsuOwned",
-    JSON.stringify(ownedCards)
-  );
-  renderCards();
+  
   // 初めての1枚ならNEW演出を表示
   if (isFirstGet) {
     const newCardElement = [...cardsArea.querySelectorAll(".card")]
@@ -2148,6 +2136,8 @@ function saveTrade() {
   document.getElementById("tradeGiveCard").value = "";
   document.getElementById("tradeWantCard").value = "";
   document.getElementById("tradeMemo").value = "";
+    updateTradePickerLabel("tradeGiveCard", "tradeGiveOpen");
+  updateTradePickerLabel("tradeWantCard", "tradeWantOpen");
 
   alert("💖 交換記録を保存したよ！");
 }
