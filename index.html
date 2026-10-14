@@ -1775,26 +1775,6 @@ plusButton.addEventListener("click", event => {
   }
 });
 
-  cardCounts[card.id] = (cardCounts[card.id] || 0) + 1;
-
-  if (!ownedCards.includes(card.id)) {
-    ownedCards.push(card.id);
-  }
-
-  localStorage.setItem(
-    "aikatsuCardCounts",
-    JSON.stringify(cardCounts)
-  );
-
-  localStorage.setItem(
-    "aikatsuOwned",
-    JSON.stringify(ownedCards)
-  );
-
-  renderCards();
-});
-
-
   cardsArea.appendChild(cardElement);
 });
 
