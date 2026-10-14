@@ -1379,6 +1379,7 @@ function fillTradeCardOptions() {
 }
 
 
+
 function updateTradePickerLabel(selectId, buttonId) {
   const select = document.getElementById(selectId);
   const button = document.getElementById(buttonId);
@@ -1425,6 +1426,107 @@ function updateTradePickerLabel(selectId, buttonId) {
 
   preview.classList.add("show");
 }
+
+
+// ポップアップを開いて、カード画像を表示する
+function openTradePicker(selectId, cardIds, title) {
+  document.getElementById("tradePickerTitle").textContent = title;
+
+  const grid = document.getElementById("tradePickerGrid");
+  const select = document.getElementById(selectId);
+
+  grid.innerHTML = "";
+
+  const availableCards = cardIds
+    .map(id => cards.find(card => card.id === id))
+    .filter(Boolean);
+
+  if (availableCards.length === 0) {
+    grid.innerHTML = `
+      <div class="trade-card-empty">
+        選べるカードがまだないよ 💗
+        <br><br>
+        図鑑の「🔄 交換に追加」から登録してね！
+      </div>
+    `;
+  }
+
+  availableCards.forEach(card => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "trade-card-option";
+
+    if (select.value === card.id) {
+      button.classList.add("selected");
+    }
+
+    const img = document.createElement("img");
+    img.src = card.image;
+    img.alt = card.cardName;
+
+    const name = document.createElement("span");
+    name.textContent = card.cardName;
+
+    button.appendChild(img);
+    button.appendChild(name);
+
+    // 画像をタップしたら選択してポップアップを閉じる
+    button.addEventListener("click", () => {
+      select.value = card.id;
+
+      const buttonId =
+        selectId === "tradeGiveCard"
+          ? "tradeGiveOpen"
+          : "tradeWantOpen";
+
+      updateTradePickerLabel(selectId, buttonId);
+
+      document.getElementById("tradePickerModal")
+        .classList.remove("show");
+    });
+
+    grid.appendChild(button);
+  });
+
+  document.getElementById("tradePickerModal")
+    .classList.add("show");
+}
+
+
+// 「自分が渡すカード」を選ぶボタン
+document.getElementById("tradeGiveOpen").onclick = () => {
+  openTradePicker(
+    "tradeGiveCard",
+    exchangeGive,
+    "🎁 自分が渡すカード"
+  );
+};
+
+
+// 「相手からもらうカード」を選ぶボタン
+document.getElementById("tradeWantOpen").onclick = () => {
+  openTradePicker(
+    "tradeWantCard",
+    exchangeWant,
+    "💝 相手からもらうカード"
+  );
+};
+
+
+// ポップアップの閉じるボタン
+document.getElementById("tradePickerClose").onclick = () => {
+  document.getElementById("tradePickerModal")
+    .classList.remove("show");
+};
+
+
+// ポップアップの外側をタップしても閉じる
+document.getElementById("tradePickerModal")
+  .addEventListener("click", event => {
+    if (event.target.id === "tradePickerModal") {
+      event.currentTarget.classList.remove("show");
+    }
+  });
 
 
 
